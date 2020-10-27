@@ -21,10 +21,11 @@ RUN apt-get update -y \
         pkg-config \
         python3 \
         wget \
+        libsqlite3-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN git clone https://github.com/kallewoof/bitcoin.git --branch signet-0.18 /workspace
+RUN git clone https://github.com/bitcoin/bitcoin.git /workspace
 
 WORKDIR /workspace
 
@@ -56,6 +57,7 @@ RUN apt-get update -y \
         libminiupnpc10 \
         libssl1.1 \
         libzmq5 \
+        libsqlite3-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -63,7 +65,7 @@ COPY --from=builder "/workspace/build/bin" /usr/local/bin
 
 COPY --from=builder /workspace/contrib /workspace/contrib
 
-ENV BITCOIN_VERSION=0.18.0
+ENV BITCOIN_VERSION=0.20.1
 ENV BITCOIN_DATA=/root/.bitcoin
 ENV PATH=/workspace/contrib/signet:$PATH
 
